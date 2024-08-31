@@ -36,14 +36,14 @@ const SlideshowApp = () => {
 
   const goNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    setTimeRemaining(intervalTime / 1000);
+    resetTimer(); // Reset the timer when going to the next slide
   };
 
   const goBack = () => {
     setCurrentIndex(
       (prevIndex) => (prevIndex - 1 + images.length) % images.length
     );
-    setTimeRemaining(intervalTime / 1000);
+    resetTimer(); // Reset the timer when going back
   };
 
   const handleIntervalChange = (time) => {
@@ -143,7 +143,6 @@ const SlideshowApp = () => {
     </div>
   );
 };
-
 const styles = {
   container: {
     display: "flex",
