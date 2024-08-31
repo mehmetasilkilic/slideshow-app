@@ -6,7 +6,6 @@ const SlideshowApp = () => {
   const [intervalTime, setIntervalTime] = useState(30000); // Default to 30 seconds
   const [intervalId, setIntervalId] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState(intervalTime / 1000);
-  const [isPaused, setIsPaused] = useState(false);
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -16,7 +15,6 @@ const SlideshowApp = () => {
 
   const startSlideshow = () => {
     if (images.length === 0) return;
-    setIsPaused(false);
     const id = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
       setTimeRemaining(intervalTime / 1000);
@@ -27,7 +25,6 @@ const SlideshowApp = () => {
   const stopSlideshow = () => {
     clearInterval(intervalId);
     setIntervalId(null);
-    setIsPaused(false);
   };
 
   const goNext = () => {
@@ -61,9 +58,25 @@ const SlideshowApp = () => {
     }
   };
 
+  const resetTimer = () => {
+    // Stop the current interval
+    clearInterval(intervalId);
+
+    // Reset the timer
+    setTimeRemaining(intervalTime / 1000);
+
+    // Restart the interval
+    const id = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setTimeRemaining(intervalTime / 1000);
+    }, intervalTime);
+
+    setIntervalId(id);
+  };
+
   useEffect(() => {
     let countdown;
-    if (intervalId && !isPaused) {
+    if (intervalId) {
       countdown = setInterval(() => {
         setTimeRemaining((prev) => (prev > 0 ? prev - 1 : intervalTime / 1000));
       }, 1000);
@@ -72,12 +85,12 @@ const SlideshowApp = () => {
       clearInterval(countdown);
       clearInterval(intervalId);
     };
-  }, [intervalId, intervalTime, isPaused]);
+  }, [intervalId, intervalTime]);
 
   return (
     <div style={styles.container}>
       <div style={styles.timer}>
-        {intervalId && !isPaused && <span>{timeRemaining}s</span>}
+        {intervalId && <span>{timeRemaining}s</span>}
       </div>
       <div style={styles.intervalButtons}>
         <input
@@ -108,15 +121,18 @@ const SlideshowApp = () => {
       <div style={styles.controls}>
         <button
           onClick={startSlideshow}
-          style={intervalId && !isPaused ? styles.buttonActive : styles.button}
+          style={intervalId ? styles.buttonActive : styles.button}
         >
           Start
         </button>
         <button
           onClick={stopSlideshow}
-          style={!intervalId && !isPaused ? styles.buttonActive : styles.button}
+          style={!intervalId ? styles.buttonActive : styles.button}
         >
           Stop
+        </button>
+        <button onClick={resetTimer} style={styles.button}>
+          Reset Timer
         </button>
         <button onClick={goBack} style={styles.button}>
           Previous
