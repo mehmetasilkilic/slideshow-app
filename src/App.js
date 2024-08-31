@@ -11,10 +11,16 @@ const SlideshowApp = () => {
     const files = Array.from(e.target.files);
     setImages(files.map((file) => URL.createObjectURL(file)));
     setCurrentIndex(0); // Reset index on new file upload
+    setTimeRemaining(intervalTime / 1000); // Reset timer on new file upload
   };
 
   const startSlideshow = () => {
     if (images.length === 0) return;
+    // Clear any existing interval
+    if (intervalId) {
+      clearInterval(intervalId);
+    }
+    // Set new interval
     const id = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
       setTimeRemaining(intervalTime / 1000);
@@ -25,6 +31,7 @@ const SlideshowApp = () => {
   const stopSlideshow = () => {
     clearInterval(intervalId);
     setIntervalId(null);
+    setTimeRemaining(intervalTime / 1000); // Reset the timer display when stopping
   };
 
   const goNext = () => {
@@ -59,19 +66,8 @@ const SlideshowApp = () => {
   };
 
   const resetTimer = () => {
-    // Stop the current interval
-    clearInterval(intervalId);
-
-    // Reset the timer
-    setTimeRemaining(intervalTime / 1000);
-
-    // Restart the interval
-    const id = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-      setTimeRemaining(intervalTime / 1000);
-    }, intervalTime);
-
-    setIntervalId(id);
+    stopSlideshow();
+    startSlideshow();
   };
 
   useEffect(() => {
