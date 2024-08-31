@@ -51,15 +51,13 @@ const SlideshowApp = () => {
     }
   };
 
-  const enterFullScreen = () => {
-    if (document.documentElement.requestFullscreen) {
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
-    }
-  };
-
-  const exitFullScreen = () => {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
     }
   };
 
@@ -126,11 +124,8 @@ const SlideshowApp = () => {
         <button onClick={goNext} style={styles.button}>
           Next
         </button>
-        <button onClick={enterFullScreen} style={styles.button}>
-          Fullscreen
-        </button>
-        <button onClick={exitFullScreen} style={styles.button}>
-          Exit Fullscreen
+        <button onClick={toggleFullscreen} style={styles.button}>
+          Toggle Fullscreen
         </button>
       </div>
     </div>
@@ -145,21 +140,34 @@ const styles = {
     justifyContent: "center",
     fontFamily: "'Poppins', sans-serif",
     position: "relative",
-    backgroundColor: "#f7f7f7",
+    background: "linear-gradient(135deg, #f9f9f9, #e0e0e0)",
     minHeight: "100vh",
+    boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.1)",
+    borderRadius: "10px",
+    overflow: "hidden",
   },
   fileInput: {
-    marginBottom: "20px",
+    margin: "10px",
+    cursor: "pointer",
+    fontSize: "16px",
+    padding: "10px",
+    borderRadius: "8px",
+    border: "2px solid #ccc",
+    backgroundColor: "#fff",
+    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
   },
   timer: {
     position: "absolute",
-    top: "10px",
-    right: "10px",
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    top: "20px",
+    right: "20px",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
     color: "white",
-    padding: "5px 10px",
-    borderRadius: "5px",
-    fontSize: "16px",
+    padding: "10px 20px",
+    borderRadius: "20px",
+    fontSize: "20px",
+    fontWeight: "bold",
+    textShadow: "0px 0px 10px rgba(255, 255, 255, 0.5)",
+    boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.3)",
     zIndex: 10,
   },
   imageContainer: {
@@ -168,54 +176,60 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#333",
-    marginBottom: "10px",
-    borderRadius: "10px",
+    backgroundColor: "#222",
+    borderRadius: "20px",
     overflow: "hidden",
-    boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.2)",
+    boxShadow: "0px 15px 30px rgba(0, 0, 0, 0.5)",
+    position: "relative",
   },
   image: {
     maxWidth: "100%",
     maxHeight: "100%",
     objectFit: "contain",
-    transition: "opacity 0.5s ease-in-out",
+    borderRadius: "20px",
+    transition: "transform 0.5s ease-in-out, opacity 0.5s ease-in-out",
+    transform: "scale(1.05)",
   },
   controls: {
-    marginBottom: "10px",
     display: "flex",
     justifyContent: "center",
     flexWrap: "wrap",
   },
   button: {
-    margin: "5px",
-    padding: "12px 24px",
-    fontSize: "16px",
+    margin: "10px",
+    padding: "15px 30px",
+    fontSize: "18px",
+    fontWeight: "bold",
     cursor: "pointer",
-    backgroundColor: "#4CAF50",
+    backgroundImage: "linear-gradient(135deg, #4CAF50, #45a049)",
     color: "white",
     border: "none",
-    borderRadius: "8px",
-    transition: "background-color 0.3s ease, transform 0.2s ease",
-    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+    borderRadius: "10px",
+    transition: "background-image 0.3s ease, transform 0.2s ease",
+    boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.2)",
+    outline: "none",
+    textShadow: "0px 1px 3px rgba(0, 0, 0, 0.3)",
   },
   buttonActive: {
-    margin: "5px",
-    padding: "12px 24px",
-    fontSize: "16px",
+    margin: "10px",
+    padding: "15px 30px",
+    fontSize: "18px",
+    fontWeight: "bold",
     cursor: "pointer",
-    backgroundColor: "#45a049",
+    backgroundImage: "linear-gradient(135deg, #43A047, #388E3C)",
     color: "white",
     border: "none",
-    borderRadius: "8px",
-    transition: "background-color 0.3s ease, transform 0.2s ease",
-    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-    transform: "scale(1.05)",
+    borderRadius: "10px",
+    transition: "background-image 0.3s ease, transform 0.2s ease",
+    boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.2)",
+    transform: "scale(1.1)",
+    outline: "none",
+    textShadow: "0px 1px 3px rgba(0, 0, 0, 0.3)",
   },
   intervalButtons: {
     display: "flex",
     justifyContent: "center",
     flexWrap: "wrap",
-    marginBottom: "20px",
   },
 };
 
