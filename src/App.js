@@ -143,6 +143,7 @@ const SlideshowApp = () => {
     </div>
   );
 };
+
 const styles = {
   container: {
     display: "flex",
@@ -166,7 +167,6 @@ const styles = {
     backgroundColor: "#222",
     color: "#fff",
     boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.5)",
-    transition: "transform 0.3s ease, box-shadow 0.3s ease",
   },
   timer: {
     position: "absolute",
@@ -178,10 +178,6 @@ const styles = {
     borderRadius: "30px",
     fontSize: "24px",
     fontWeight: "bold",
-    textShadow: "0px 0px 15px rgba(0, 255, 198, 0.8)",
-    boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.6)",
-    zIndex: 10,
-    animation: "pulse 2s infinite",
   },
   imageContainer: {
     width: "90%",
@@ -193,7 +189,6 @@ const styles = {
     borderRadius: "20px",
     overflow: "hidden",
     boxShadow: "0px 20px 40px rgba(0, 0, 0, 0.8)",
-    position: "relative",
   },
   image: {
     maxWidth: "100%",
@@ -211,9 +206,9 @@ const styles = {
     fontSize: "20px",
     fontWeight: "bold",
     cursor: "pointer",
-    backgroundImage: "linear-gradient(135deg, #ff4081, #ff79b0)",
+    backgroundColor: "#333",
     color: "white",
-    border: "none",
+    border: "1px solid #555",
     borderRadius: "12px",
     transition: "background-image 0.4s ease, transform 0.3s ease",
     boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.4)",
@@ -227,9 +222,9 @@ const styles = {
     fontSize: "20px",
     fontWeight: "bold",
     cursor: "pointer",
-    backgroundImage: "linear-gradient(135deg, #ff6f61, #ff8e72)",
+    backgroundColor: "#555",
     color: "white",
-    border: "none",
+    border: "1px solid #777",
     borderRadius: "12px",
     transition: "background-image 0.4s ease, transform 0.3s ease",
     boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.4)",
