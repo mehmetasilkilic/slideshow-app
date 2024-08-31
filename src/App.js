@@ -5,6 +5,7 @@ const SlideshowApp = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [intervalTime, setIntervalTime] = useState(30000); // Default to 30 seconds
   const [intervalId, setIntervalId] = useState(null);
+  const [timeRemaining, setTimeRemaining] = useState(intervalTime / 1000);
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -15,6 +16,7 @@ const SlideshowApp = () => {
     if (images.length === 0) return;
     const id = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setTimeRemaining(intervalTime / 1000);
     }, intervalTime);
     setIntervalId(id);
   };
@@ -26,16 +28,19 @@ const SlideshowApp = () => {
 
   const goNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    setTimeRemaining(intervalTime / 1000);
   };
 
   const goBack = () => {
     setCurrentIndex(
       (prevIndex) => (prevIndex - 1 + images.length) % images.length
     );
+    setTimeRemaining(intervalTime / 1000);
   };
 
   const handleIntervalChange = (time) => {
     setIntervalTime(time);
+    setTimeRemaining(time / 1000);
     if (intervalId) {
       stopSlideshow();
       startSlideshow();
@@ -43,13 +48,23 @@ const SlideshowApp = () => {
   };
 
   useEffect(() => {
+    let countdown;
+    if (intervalId) {
+      countdown = setInterval(() => {
+        setTimeRemaining((prev) => (prev > 0 ? prev - 1 : intervalTime / 1000));
+      }, 1000);
+    }
     return () => {
+      clearInterval(countdown);
       clearInterval(intervalId);
     };
-  }, [intervalId]);
+  }, [intervalId, intervalTime]);
 
   return (
     <div style={styles.container}>
+      <div style={styles.timer}>
+        {intervalId && <span>{timeRemaining}s</span>}
+      </div>
       <div style={styles.intervalButtons}>
         <input
           type="file"
@@ -108,8 +123,19 @@ const styles = {
     justifyContent: "center",
     padding: "20px",
     fontFamily: "Arial, sans-serif",
+    position: "relative",
   },
   fileInput: {},
+  timer: {
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    color: "white",
+    padding: "5px 10px",
+    borderRadius: "5px",
+    fontSize: "16px",
+  },
   imageContainer: {
     width: "80%",
     height: "800px",
